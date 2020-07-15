@@ -1,10 +1,11 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function createPopupClass() {
-  function Popup({ position, content, map, passThroughMouseEvents }) {
+  function Popup({ position, content, map, passThroughMouseEvents, onDraw }) {
     this.position = position;
     this.containerDiv = content;
+    this.onDraw = onDraw;
     this.setMap(map);
     if (!passThroughMouseEvents) {
       google.maps.OverlayView.preventMapHitsAndGesturesFrom(this.containerDiv);
@@ -35,6 +36,7 @@ function createPopupClass() {
     if (!this.position) {
       return;
     }
+    this.onDraw();
     var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
     var display =
       Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000
@@ -63,10 +65,10 @@ export const CustomOverlay = ({
   position,
   children,
   visible,
-  google,
   className,
   passThroughMouseEvents
 }) => {
+  const [hasDrawn, setHasDrawn] = useState(false);
   const containerRef = useRef(null);
   const popoverRef = useRef(null);
 
@@ -77,7 +79,8 @@ export const CustomOverlay = ({
         position: asLatLng(position),
         content: containerRef.current,
         map,
-        passThroughMouseEvents
+        passThroughMouseEvents,
+        onDraw: () => setHasDrawn(true)
       });
     }
   }, [map]);
@@ -97,10 +100,11 @@ export const CustomOverlay = ({
     }
   }, [visible]);
 
+  const display = hasDrawn ? 'block' : 'none';
   return (
     <div
       className={className}
-      style={{ position: 'absolute' }}
+      style={{ position: 'absolute', display }}
       ref={containerRef}
     >
       {visible && children}
@@ -109,7 +113,6 @@ export const CustomOverlay = ({
 };
 
 CustomOverlay.propTypes = {
-  google: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
   map: PropTypes.object,
