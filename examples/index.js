@@ -21,7 +21,7 @@ import Polygon from './components/withPolygons';
 import Polyline from './components/withPolylines';
 import Rectangle from './components/withRectangle';
 import CustomEvents from './components/resizeEvent';
-import CustomPopup from './components/withCustomPopup';
+import CustomOverlay from './components/withCustomOverlay';
 
 const routes = [
   {
@@ -76,8 +76,8 @@ const routes = [
   },
   {
     path: '/onCustomPopup',
-    name: 'Custom popup',
-    component: CustomPopup
+    name: 'Custom overlay',
+    component: CustomOverlay
   }
 ];
 
