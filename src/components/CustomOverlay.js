@@ -2,11 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 function createPopupClass() {
-  function Popup({ position, content, map }) {
+  function Popup({ position, content, map, passThroughMouseEvents }) {
     this.position = position;
     this.containerDiv = content;
     this.setMap(map);
-    google.maps.OverlayView.preventMapHitsAndGesturesFrom(this.containerDiv);
+    if (!passThroughMouseEvents) {
+      google.maps.OverlayView.preventMapHitsAndGesturesFrom(this.containerDiv);
+    }
   }
 
   Popup.prototype = Object.create(google.maps.OverlayView.prototype);
@@ -40,7 +42,15 @@ function createPopupClass() {
   return Popup;
 }
 
-const CustomPopup = ({ map, position, children, visible, google, className }) => {
+const CustomPopup = ({
+  map,
+  position,
+  children,
+  visible,
+  google,
+  className,
+  passThroughMouseEvents
+}) => {
   const containerEl = useRef(null);
   useEffect(() => {
     if (map) {
@@ -49,7 +59,8 @@ const CustomPopup = ({ map, position, children, visible, google, className }) =>
       new Popup({
         position: pos,
         content: containerEl.current,
-        map
+        map,
+        passThroughMouseEvents
       });
     }
   }, [map]);
@@ -70,7 +81,8 @@ CustomPopup.propTypes = {
   children: PropTypes.element.isRequired,
   map: PropTypes.object,
   position: PropTypes.object,
-  visible: PropTypes.bool
+  visible: PropTypes.bool,
+  passThroughMouseEvents: PropTypes.bool
 };
 
 CustomPopup.defaultProps = {

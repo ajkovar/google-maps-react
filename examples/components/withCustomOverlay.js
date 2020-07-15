@@ -20,6 +20,7 @@ const WithCustomOverlay = (props) => {
           position={{ lat: 37.782551, lng: -122.425368 }}
           visible={showOverlay}
           className={styles.overlayContainer}
+          passThroughMouseEvents={true}
         >
           <div>Hi there. I'm a custom overlay.</div>
         </CustomOverlay>
