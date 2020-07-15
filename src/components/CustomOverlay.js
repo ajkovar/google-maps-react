@@ -32,6 +32,9 @@ function createPopupClass() {
   };
 
   Popup.prototype.draw = function () {
+    if (!this.position) {
+      return;
+    }
     var divPosition = this.getProjection().fromLatLngToDivPixel(this.position);
     var display =
       Math.abs(divPosition.x) < 4000 && Math.abs(divPosition.y) < 4000
@@ -59,16 +62,19 @@ export const CustomOverlay = ({
   className,
   passThroughMouseEvents
 }) => {
-  const containerEl = useRef(null);
+  const containerRef = useRef(null);
   const popoverRef = useRef(null);
 
   useEffect(() => {
     if (map) {
-      const pos = new google.maps.LatLng(position.lat, position.lng);
+      const pos =
+        !position || position instanceof google.maps.LatLng
+          ? position
+          : new google.maps.LatLng(position.lat, position.lng);
       const Popup = createPopupClass();
       popoverRef.current = new Popup({
         position: pos,
-        content: containerEl.current,
+        content: containerRef.current,
         map,
         passThroughMouseEvents
       });
@@ -86,7 +92,7 @@ export const CustomOverlay = ({
     <div
       className={className}
       style={{ position: 'absolute' }}
-      ref={containerEl}
+      ref={containerRef}
     >
       {visible && children}
     </div>
