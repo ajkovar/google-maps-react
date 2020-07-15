@@ -109,8 +109,6 @@ export class InfoWindow extends React.Component<IInfoWindowProps, any> {
 
 
 export interface ICustomOverlayProps {
-  google: typeof google
-  map: google.maps.Map
   position: any,
   visible?: boolean,
   passThroughMouseEvents?: boolean
