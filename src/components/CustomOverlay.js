@@ -13,6 +13,14 @@ function createPopupClass() {
 
   Popup.prototype = Object.create(google.maps.OverlayView.prototype);
 
+  Popup.prototype.show = function () {
+    this.containerDiv.style.visibility = 'visible';
+  };
+
+  Popup.prototype.hide = function () {
+    this.containerDiv.style.visibility = 'hidden';
+  };
+
   Popup.prototype.onAdd = function () {
     this.getPanes().floatPane.appendChild(this.containerDiv);
   };
@@ -52,11 +60,13 @@ const CustomPopup = ({
   passThroughMouseEvents
 }) => {
   const containerEl = useRef(null);
+  const popoverRef = useRef(null);
+
   useEffect(() => {
     if (map) {
       const pos = new google.maps.LatLng(position.lat, position.lng);
       const Popup = createPopupClass();
-      new Popup({
+      popoverRef.current = new Popup({
         position: pos,
         content: containerEl.current,
         map,
@@ -64,6 +74,14 @@ const CustomPopup = ({
       });
     }
   }, [map]);
+
+  useEffect(() => {
+    const popover = popoverRef.current;
+    if (popover) {
+      visible ? popover.show() : popover.hide();
+    }
+  }, [visible]);
+
   return (
     <div
       className={className}
