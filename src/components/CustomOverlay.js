@@ -96,7 +96,7 @@ export const CustomOverlay = ({
 CustomOverlay.propTypes = {
   google: PropTypes.object,
   className: PropTypes.string,
-  children: PropTypes.element.isRequired,
+  children: PropTypes.node.isRequired,
   map: PropTypes.object,
   position: PropTypes.object,
   visible: PropTypes.bool,
