@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import PropTypes from 'prop-types'
 
 function createPopupClass() {
   function Popup({ position, content, map }) {
@@ -39,26 +40,35 @@ function createPopupClass() {
   return Popup;
 }
 
-const CustomPopup = ({ map, position, children }) => {
+const CustomPopup = ({ map, position, children, visible, google }) => {
   const containerEl = useRef(null);
   useEffect(() => {
+    if (map) {
     const pos = new google.maps.LatLng(position.lat, position.lng);
     const Popup = createPopupClass();
-    const popup = new Popup({
+      new Popup({
       position: pos,
       content: containerEl.current,
       map,
     });
-  });
+    }
+  }, [map]);
   return (
-    <div
-      style={{ position: 'absolute' }}
-      className="custom-popup"
-      ref={containerEl}
-    >
-      {children}
+    <div style={{ position: 'absolute' }} ref={containerEl}>
+      {visible && children}
     </div>
   );
 };
 
+CustomPopup.propTypes = {
+  children: PropTypes.element.isRequired,
+  map: PropTypes.object,
+  marker: PropTypes.object,
+  position: PropTypes.object,
+  visible: PropTypes.bool,
+}
+
+CustomPopup.defaultProps = {
+  visible: true
+}
 export default CustomPopup;

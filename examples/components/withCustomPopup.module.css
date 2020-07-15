@@ -1,0 +1,12 @@
+.customPopup {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.button {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 1;
+}
