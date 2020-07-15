@@ -53,6 +53,11 @@ function createPopupClass() {
   return Popup;
 }
 
+const asLatLng = (position) =>
+  !position || position instanceof google.maps.LatLng
+    ? position
+    : new google.maps.LatLng(position.lat, position.lng);
+
 export const CustomOverlay = ({
   map,
   position,
@@ -67,19 +72,23 @@ export const CustomOverlay = ({
 
   useEffect(() => {
     if (map) {
-      const pos =
-        !position || position instanceof google.maps.LatLng
-          ? position
-          : new google.maps.LatLng(position.lat, position.lng);
       const Popup = createPopupClass();
       popoverRef.current = new Popup({
-        position: pos,
+        position: asLatLng(position),
         content: containerRef.current,
         map,
         passThroughMouseEvents
       });
     }
   }, [map]);
+
+  useEffect(() => {
+    const popover = popoverRef.current;
+    if (popover) {
+      popover.position = asLatLng(position);
+      popover.draw();
+    }
+  }, [position]);
 
   useEffect(() => {
     const popover = popoverRef.current;
