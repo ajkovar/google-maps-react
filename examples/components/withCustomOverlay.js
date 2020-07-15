@@ -19,10 +19,9 @@ const WithCustomOverlay = (props) => {
         <CustomOverlay
           position={{ lat: 37.782551, lng: -122.425368 }}
           visible={showOverlay}
+          className={styles.overlayContainer}
         >
-          <div className={styles.overlayContainer}>
-            Hi there. I'm a custom overlay.
-          </div>
+          <div>Hi there. I'm a custom overlay.</div>
         </CustomOverlay>
       </Map>
     </Fragment>
