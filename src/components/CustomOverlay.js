@@ -50,7 +50,7 @@ function createPopupClass() {
   return Popup;
 }
 
-const CustomOverlay = ({
+export const CustomOverlay = ({
   map,
   position,
   children,
@@ -106,4 +106,5 @@ CustomOverlay.propTypes = {
 CustomOverlay.defaultProps = {
   visible: true
 };
+
 export default CustomOverlay;
