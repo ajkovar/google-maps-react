@@ -50,7 +50,7 @@ export interface IMapProps extends google.maps.MapOptions {
   onCenterChanged?: mapEventHandler
   onDblclick?: mapEventHandler
   onDragstart?: mapEventHandler
-  onHeadingChange?: mapEventHandler
+  onHeadingChanged?: mapEventHandler
   onIdle?: mapEventHandler
   onMaptypeidChanged?: mapEventHandler
   onMousemove?: mapEventHandler

@@ -28,7 +28,7 @@ const evtNames = [
   'center_changed',
   'dblclick',
   'dragstart',
-  'heading_change',
+  'heading_changed',
   'idle',
   'maptypeid_changed',
   'mousemove',
