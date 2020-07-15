@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 
 import GitHubForkRibbon from 'react-github-fork-ribbon';
 import PropTypes from 'prop-types';
+import Config from './Config.json';
 import {withRouter, Switch, Link, Redirect, Route} from 'react-router-dom';
 
 import styles from './styles.module.css';
@@ -53,29 +54,29 @@ class Container extends Component {
             </div>
 
             <div className={styles.mapContainer}>
-            <Switch>
-              {routes.map(route => (
-                <Route
-                  key={route.name}
-                  path={route.path}
-                  routeDef={route}
-                  routes={routes}
-                  render={routingProps => (
-                    <div>
-                      <route.component
-                        {...routingProps}
-                        google={this.props.google}
-                        loaded={this.props.loaded}
-                      />
-                    </div>
-                  )}
-                />
-              ))}
-              <Redirect path="*" to={'/basic'} />
-            </Switch>
+              <Switch>
+                {routes.map(route => (
+                  <Route
+                    key={route.name}
+                    path={route.path}
+                    routeDef={route}
+                    routes={routes}
+                    render={routingProps => (
+                      <div>
+                        <route.component
+                          {...routingProps}
+                          google={this.props.google}
+                          loaded={this.props.loaded}
+                        />
+                      </div>
+                    )}
+                  />
+                ))}
+                <Redirect path="*" to={'/basic'} />
+              </Switch>
+            </div>
           </div>
         </div>
-      </div>
       </div>
     );
   }
@@ -85,7 +86,7 @@ const Loading = () => <div>Fancy loading container</div>;
 
 export default withRouter(
   GoogleApiWrapper({
-    apiKey: __GAPI_KEY__,
+    apiKey: Config.apiKey,
     libraries: ['places', 'visualization'],
     LoadingContainer: Loading
   })(Container)
