@@ -50,7 +50,7 @@ function createPopupClass() {
   return Popup;
 }
 
-const CustomPopup = ({
+const CustomOverlay = ({
   map,
   position,
   children,
@@ -93,7 +93,7 @@ const CustomPopup = ({
   );
 };
 
-CustomPopup.propTypes = {
+CustomOverlay.propTypes = {
   google: PropTypes.object,
   className: PropTypes.string,
   children: PropTypes.element.isRequired,
@@ -103,7 +103,7 @@ CustomPopup.propTypes = {
   passThroughMouseEvents: PropTypes.bool
 };
 
-CustomPopup.defaultProps = {
+CustomOverlay.defaultProps = {
   visible: true
 };
-export default CustomPopup;
+export default CustomOverlay;
